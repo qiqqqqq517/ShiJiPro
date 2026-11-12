@@ -3,9 +3,24 @@
 专业网优工具：蜂窝网络诊断 / WiFi 分析 / GNSS 定位 / 路测覆盖 / 设备信息 / 网络测速。
 对标并集合 Cellular-Z、CellScan PRO、Signal Detector、Network Cell Info Lite、WiFi Analyzer 等同类工具的通用能力。
 
-> 版本 0.1.0（P0–P12 全阶段）· 日期 2026-11-12
+> 版本 1.0.0（P0–P14 全阶段）· 日期 2026-11-12
 > 工程：`D:\01项目\ShiJiPro`　包名 `com.shiji.pro`
+> 仓库：<https://github.com/qiqqqqq517/ShiJiPro>　发布页：<https://github.com/qiqqqqq517/ShiJiPro/releases/tag/v1.0.0>
 > minSdk **23** / targetSdk **37** / compileSdk **37**　语言 Kotlin 2.4.0　UI Jetpack Compose (Material 3, BOM 2024.01.00)
+
+---
+
+## 0. 安装（Release）
+
+```bash
+# 从 Release 页下载 app-release.apk 后
+adb install app-release.apk
+# 校验（与 Release 资产 SHA256SUMS.txt 一致）
+certutil -hashfile app-release.apk SHA256
+```
+
+签名：`CN=ShiJi`（V2，证书 SHA-256 `8f94e91d…b036`）；APK SHA-256 `15D2E040622BD5256F53B61EA86BAF2483F07288621F148A09F8F6D25E0C364B`。
+
 
 ---
 
@@ -53,6 +68,19 @@ gradlew.bat installDebug           :: 需 adb 设备（本机当前无设备）
 结构拆分：`features` 由单文件 `FeatureScreens.kt`（409 行）拆为 8 个按标签文件（CellularTab/WifiTab/LocationTab/DeviceTab/DriveTestTab/SpeedTestTab/ScreenCommon/DualSimCompare + 分派器）。契约、所有权与验收见 `docs/P13_研究报告功能补全_契约与分工.md`；真机证据见 `docs/P13_真机复验记录_20261112.md`。
 
 **P13 后门禁**：`assembleDebug + testDebugUnitTest（136 例）+ lint（0 error）` 全 `BUILD SUCCESSFUL`；APK 14,271,018 B。
+
+### 1.2 P14 收尾（2026-11-12，v1.0.0 前最后一轮）
+
+| 新增 | 内容 |
+|---|---|
+| 采样调度器 | `AppViewModel` 按 `SamplingConfig.cellularIntervalMs` 自动 refresh（进程内），设置页开关「自动采集」；此前「配置无消费者」的诚实边界已消除 |
+| 前台服务 | `SamplingService` 真实落地：通知栏常驻、`foregroundServiceType=location`、设置页开关；进程被杀即停（如实） |
+| RSRP 趋势 | 每卡槽 300 点环形缓冲 → 5 分钟窗口 → 降频 120 点，`state.cellularTrend` 驱动真实曲线 |
+| 覆盖栅格 IDW | `core:common/IdwGrid`（纯 Kotlin，p=2、等距圆柱距离近似）+ 覆盖测试页 20×20 热力图；结果估算值、无点不画 |
+| 本应用流量 | `TrafficStats` 本 UID 收发字节（`TrafficSnapshot`），设备页卡片；不做逐应用流量 |
+
+**v1.0.0 门禁**：`assembleDebug + assembleRelease + testDebugUnitTest（150 例）+ lint（0 error）` 全 `BUILD SUCCESSFUL`；Release APK 10,168,467 B，`apksigner` V2 验签通过。
+
 
 
 **三态标注**：所有字段带 `实测/换算/估算/N/A` 徽标；估算值（信号评级、TA 距离、屏幕尺寸等）附「估算值，仅供参考」；取不到的字段一律 `N/A` + 原因，不编造数值。
