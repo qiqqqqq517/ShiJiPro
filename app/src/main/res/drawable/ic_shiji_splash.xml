@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 启动屏占位图 vector：居中图标 + 向外扩散的同心波纹。
+     viewport 108dp，透明底，可直接铺在 launch_background 之上。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 扩散波纹（半径 26 / 34 / 42，半透明白） -->
+    <path
+        android:pathData="M12,54 A42,42 0 1,1 96,54 A42,42 0 1,1 12,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#1AFFFFFF"
+        android:strokeWidth="1.4" />
+    <path
+        android:pathData="M20,54 A34,34 0 1,1 88,54 A34,34 0 1,1 20,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#26FFFFFF"
+        android:strokeWidth="1.4" />
+    <path
+        android:pathData="M28,54 A26,26 0 1,1 80,54 A26,26 0 1,1 28,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#33FFFFFF"
+        android:strokeWidth="1.4" />
+
+    <!-- 居中图标：以 (54,54) 为轴心缩至 0.62 -->
+    <group
+        android:scaleX="0.62"
+        android:scaleY="0.62"
+        android:pivotX="54"
+        android:pivotY="54">
+        <!-- 天线 + 顶球 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M53,33 L55,33 L55,46 L53,46 Z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M51.4,29 A2.6,2.6 0 1,1 56.6,29 A2.6,2.6 0 1,1 51.4,29 Z" />
+        <!-- 梯形塔身 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M45,62 L50,46 L58,46 L63,62 Z" />
+        <!-- 横撑 -->
+        <path
+            android:pathData="M47.5,53 L60.5,53 M46.5,58 L61.5,58"
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2.2" />
+        <!-- 交叉撑 -->
+        <path
+            android:pathData="M50,46 L63,62 M58,46 L45,62"
+            android:fillColor="#00000000"
+            android:strokeColor="#99FFFFFF"
+            android:strokeWidth="1.6" />
+        <!-- 底座 + 强调色压条 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M41,62 L67,62 L67,65 L41,65 Z" />
+        <path
+            android:fillColor="#14B8A6"
+            android:pathData="M41,65.4 L67,65.4 L67,67 L41,67 Z" />
+        <!-- 定位针 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M54,64 C50.7,64 48,66.7 48,70 C48,74 54,81 54,81 C54,81 60,74 60,70 C60,66.7 57.3,64 54,64 Z M54,67.6 A2.4,2.4 0 1,0 54,72.4 A2.4,2.4 0 1,0 54,67.6 Z" />
+    </group>
+</vector>

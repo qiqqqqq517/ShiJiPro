@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- P0 启动视觉：低版本窗口背景铺纯色启动底图；Activity 内容由 Compose 接管。
+     Android 12+ 系统启动屏由 OS 依据 @mipmap/ic_launcher 自动生成，无需额外依赖。 -->
+<resources>
+    <style name="Theme.ShiJi" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">#0B1220</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

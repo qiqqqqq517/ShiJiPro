@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自适应图标背景层：主色纯色填充 + 极淡同心圆纹理。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 主色 #0F766E (teal-700) 满幅填充 -->
+    <path
+        android:fillColor="#0F766E"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z" />
+
+    <!-- 极淡同心圆纹理（约 4% 白），呼应前景信号波纹 -->
+    <path
+        android:pathData="M28,54 A26,26 0 1,1 80,54 A26,26 0 1,1 28,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#0AFFFFFF"
+        android:strokeWidth="1.2" />
+    <path
+        android:pathData="M18,54 A36,36 0 1,1 90,54 A36,36 0 1,1 18,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#0AFFFFFF"
+        android:strokeWidth="1.2" />
+    <path
+        android:pathData="M8,54 A46,46 0 1,1 100,54 A46,46 0 1,1 8,54 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#0AFFFFFF"
+        android:strokeWidth="1.2" />
+</vector>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 低版本启动屏窗口背景：纯色 #0B1220。
+     仅用字面 hex，不引用任何 @color / @string / 主题属性，避免与 values 资源耦合。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#0B1220" />
+</shape>

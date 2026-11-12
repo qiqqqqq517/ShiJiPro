@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 设置页「关于」图标：与前景层同一构图，外加一圈白色描边外圈。
+     48dp viewport，前景按 48/108 = 0.444444 缩放，外圈半径 22。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- 主色圆底 -->
+    <path
+        android:fillColor="#0F766E"
+        android:pathData="M24,2 A22,22 0 1,1 24,46 A22,22 0 1,1 24,2 Z" />
+    <!-- 白色外圈 -->
+    <path
+        android:pathData="M24,2 A22,22 0 1,1 24,46 A22,22 0 1,1 24,2 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.4" />
+
+    <group
+        android:scaleX="0.444444"
+        android:scaleY="0.444444">
+        <!-- 同心信号波纹 -->
+        <path
+            android:pathData="M24,54 A30,30 0 1,1 84,54 A30,30 0 1,1 24,54 Z"
+            android:fillColor="#00000000"
+            android:strokeColor="#33FFFFFF"
+            android:strokeWidth="3.6" />
+        <path
+            android:pathData="M30,54 A24,24 0 1,1 78,54 A24,24 0 1,1 30,54 Z"
+            android:fillColor="#00000000"
+            android:strokeColor="#4DFFFFFF"
+            android:strokeWidth="3.6" />
+        <path
+            android:pathData="M36,54 A18,18 0 1,1 72,54 A18,18 0 1,1 36,54 Z"
+            android:fillColor="#00000000"
+            android:strokeColor="#66FFFFFF"
+            android:strokeWidth="3.6" />
+        <!-- 天线 + 顶球 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M53,33 L55,33 L55,46 L53,46 Z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M51.4,29 A2.6,2.6 0 1,1 56.6,29 A2.6,2.6 0 1,1 51.4,29 Z" />
+        <!-- 梯形塔身 + 横撑 + 底座 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M45,62 L50,46 L58,46 L63,62 Z" />
+        <path
+            android:pathData="M47.5,53 L60.5,53 M46.5,58 L61.5,58"
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.2" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M41,62 L67,62 L67,65 L41,65 Z" />
+        <path
+            android:fillColor="#14B8A6"
+            android:pathData="M41,65.4 L67,65.4 L67,67 L41,67 Z" />
+        <!-- 定位针 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M54,64 C50.7,64 48,66.7 48,70 C48,74 54,81 54,81 C54,81 60,74 60,70 C60,66.7 57.3,64 54,64 Z M54,67.6 A2.4,2.4 0 1,0 54,72.4 A2.4,2.4 0 1,0 54,67.6 Z" />
+    </group>
+</vector>

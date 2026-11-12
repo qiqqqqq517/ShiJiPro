@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自适应启动图标（方形/默认）：引用 drawable 中的背景层与前景层。
+     monochrome 供 Android 13+ (API 33) themed icon 使用，以 tools:targetApi 标注避免低版本告警。 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <background android:drawable="@drawable/ic_shiji_background" />
+    <foreground android:drawable="@drawable/ic_shiji_foreground" />
+    <monochrome
+        android:drawable="@drawable/ic_shiji_monochrome"
+        tools:targetApi="33" />
+</adaptive-icon>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自适应启动图标（圆形）：与 ic_launcher.xml 相同的分层，供圆形遮罩的启动器使用。
+     monochrome 供 Android 13+ (API 33) themed icon 使用，以 tools:targetApi 标注。 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <background android:drawable="@drawable/ic_shiji_background" />
+    <foreground android:drawable="@drawable/ic_shiji_foreground" />
+    <monochrome
+        android:drawable="@drawable/ic_shiji_monochrome"
+        tools:targetApi="33" />
+</adaptive-icon>
