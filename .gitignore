@@ -17,3 +17,5 @@ release/
 SHA256SUMS.txt
 docs/evidence_p13/_*.xml
 docs/evidence_p13/_*.png
+release_view.json
+_dl/
