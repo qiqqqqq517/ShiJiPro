@@ -15,6 +15,9 @@ import androidx.compose.ui.graphics.Color
  *
  * @param darkTheme 默认「跟随系统」；设置页显式切换时由调用方传入具体值。
  * @param dynamicColor  deliberately false：本工具需保证信号配色语义稳定，不接入 Android 12 动态取色。
+ *
+ * P15：补齐 `secondaryContainer / onSecondaryContainer`，使 NavigationRail 等
+ * Material3 组件选中态沿用品牌色系，而非回落到系统默认紫色。
  */
 private val LightColorScheme = lightColorScheme(
     primary = ShiJiPalette.Primary,
@@ -23,6 +26,8 @@ private val LightColorScheme = lightColorScheme(
     onPrimaryContainer = ShiJiPalette.OnSurfaceLight,
     secondary = ShiJiPalette.PrimaryLight,
     onSecondary = ShiJiPalette.OnPrimary,
+    secondaryContainer = ShiJiPalette.SurfaceVariantLight,
+    onSecondaryContainer = ShiJiPalette.OnSurfaceLight,
     background = ShiJiPalette.SurfaceLight,
     onBackground = ShiJiPalette.OnSurfaceLight,
     surface = ShiJiPalette.SurfaceLight,
@@ -41,6 +46,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimaryContainer = ShiJiPalette.OnSurfaceDark,
     secondary = ShiJiPalette.PrimaryPale,
     onSecondary = ShiJiPalette.SplashBackground,
+    secondaryContainer = ShiJiPalette.SurfaceVariantDark,
+    onSecondaryContainer = ShiJiPalette.OnSurfaceDark,
     background = ShiJiPalette.SurfaceDark,
     onBackground = ShiJiPalette.OnSurfaceDark,
     surface = ShiJiPalette.SurfaceDark,

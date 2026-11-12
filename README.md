@@ -3,9 +3,9 @@
 专业网优工具：蜂窝网络诊断 / WiFi 分析 / GNSS 定位 / 路测覆盖 / 设备信息 / 网络测速。
 对标并集合 Cellular-Z、CellScan PRO、Signal Detector、Network Cell Info Lite、WiFi Analyzer 等同类工具的通用能力。
 
-> 版本 1.0.0（P0–P14 全阶段）· 日期 2026-11-12
+> 版本 1.1.0（P0–P15 + UI 恒定骨架）· 日期 2026-11-12
 > 工程：`D:\01项目\ShiJiPro`　包名 `com.shiji.pro`
-> 仓库：<https://github.com/qiqqqqq517/ShiJiPro>　发布页：<https://github.com/qiqqqqq517/ShiJiPro/releases/tag/v1.0.0>
+> 仓库：<https://github.com/qiqqqqq517/ShiJiPro>　发布页：<https://github.com/qiqqqqq517/ShiJiPro/releases/tag/v1.1.0>
 > minSdk **23** / targetSdk **37** / compileSdk **37**　语言 Kotlin 2.4.0　UI Jetpack Compose (Material 3, BOM 2024.01.00)
 
 ---
@@ -19,7 +19,7 @@ adb install app-release.apk
 certutil -hashfile app-release.apk SHA256
 ```
 
-签名：`CN=ShiJi`（V2，证书 SHA-256 `8f94e91d…b036`）；APK SHA-256 `15D2E040622BD5256F53B61EA86BAF2483F07288621F148A09F8F6D25E0C364B`。
+签名：`CN=ShiJi`（V1 + V2，证书 SHA-256 `8f94e91d…b036`）；APK SHA-256 `38DE639EBD00E9DF0562B7B1FA99B04F961CD29C3E5FF30A661484DDEB7E4F12`（10,234,029 B）。
 
 
 ---
@@ -29,14 +29,14 @@ certutil -hashfile app-release.apk SHA256
 ```bat
 cd /d D:\01项目\ShiJiPro
 gradlew.bat assembleDebug          :: 产物 app\build\outputs\apk\debug\app-debug.apk
-gradlew.bat testDebugUnitTest      :: 57 个 JVM 单测
+gradlew.bat testDebugUnitTest      :: 150 个 JVM 单测
 gradlew.bat lint                   :: 0 errors
-gradlew.bat installDebug           :: 需 adb 设备（本机当前无设备）
+gradlew.bat installDebug           :: 需 adb 设备（当前已接小米 22041216UC / Android 14）
 ```
 
 环境：JDK 21+（本机 JAVA_HOME = Android Studio JBR / JDK 25）、`ANDROID_HOME=D:\Android\SDK`（platform android-37.0、build-tools 37.0.0）、Gradle wrapper 9.7.1（Tencent 镜像，已缓存）。默认走阿里云 maven 镜像（可 `gradle.properties` 设 `useMirror=false` 回退）。
 
-**签名发版**：本工程为全新包名，未配置签名。若日后作为 v1.0.0（`com.shiji.network`）升级包发布，需复用 `D:\ShiJi_v2\shiji.keystore` 并从 `keystore.properties` 读取凭据（不入库）。
+**签名发版**：`keystore.properties` 提供发布签名（不入库），keystore 位于仓库外 `D:\ShiJi_v2\shiji.keystore`；`assembleRelease` 直接产出已签名的 `app-release.apk`，用 `apksigner verify` 复核。
 
 ---
 
@@ -81,6 +81,49 @@ gradlew.bat installDebug           :: 需 adb 设备（本机当前无设备）
 
 **v1.0.0 门禁**：`assembleDebug + assembleRelease + testDebugUnitTest（150 例）+ lint（0 error）` 全 `BUILD SUCCESSFUL`；Release APK 10,168,467 B，`apksigner` V2 验签通过。
 
+### 1.3 P15 UI 统一改造（2026-11-12，仅界面层）
+
+| 维度 | 落地内容 |
+|---|---|
+| 风格统一 | 扩展 `ShiJiExtendedColors`（表面分层 / 状态容器 / 骨架 / 徽标前景）；补齐 Typography 档位并把 `labelSmall` 提到 12sp；新增自绘图标集 `Icons.kt`（零外部图标依赖，延续 ICON_DESIGN 约定）；`SectionCard` 支持图标 / 副标题，`ValueRow` 展示 N/A 原因 |
+| 布局与响应式 | `Scaffold` + 品牌应用栏（含数据时间）；窄屏顶部可滚动标签行、宽屏（≥600dp）左侧导航栏；内容限宽 900dp 居中；≥840dp 字段两列、设置页左右分栏 |
+| 三态 | `LoadingState`（骨架 / 进度）、`EmptyState`（插画 / 标题 / 原因 / 刷新）、`ErrorState`（权限与能力降级 + 重新检查）、`StatusBanner`（信息 / 警告 / 成功 / 错误）统一语言；全部不填充任何伪造数值。首屏改为恒定骨架后不再用整页骨架替换内容（见 1.4） |
+| 可访问性 | 自绘图标由外层按钮提供语义；三种图表补充 `contentDescription`；`ValueRow` 合并语义一次朗读；Switch / Checkbox / Slider 带语义标签；交互控件 ≥48dp；覆盖层接管系统返回键 |
+| 覆盖页面 | 7 个主标签 + 双卡对比 / 日志中心 / 设置三个覆盖层 + 端点录入对话框 |
+
+**改动边界**：仅 `:core:ui`、`:features` 只读渲染层、`:app` 的 `MainActivity.kt` 与 `values/styles.xml`；
+`AppViewModel` / `AppState` / 8 个采集器 / 仓储 / 领域模型、以及刷新、测速、设置写回、CSV 列、KPI 权重、端点管理、前台服务启停等交互契约全部保持不变。
+
+**P15 门禁**：`assembleDebug + testDebugUnitTest（150 例全绿）+ lint（0 error）` 全 `BUILD SUCCESSFUL`；
+debug APK 14,324,158 B。本机无 adb 设备，未做装机回归；主要交互经代码级链路复核（4 个顶栏动作、7 标签分派、3 个覆盖层、系统返回键、全部写回入口均在）。
+
+### 1.4 恒定骨架：所有项均展示、消除布局跳变（2026-11-12 第二轮，仅界面层）
+
+| 问题 | 处理 |
+|---|---|
+| 检测不到就不写 | 7 个主标签 + 双卡对比页改为**固定卡片集 + 固定字段清单**：SIM 15 项、服务小区 39 项（LTE / NR / GSM / WCDMA / TDS / CDMA 全部键）、WiFi 已连接 13 项 + DNS、定位 7 项 + 原始观测 8 项、设备电池 7 / 屏幕 2 / 存储 4 / 硬件 5 / 系统 4 / 流量 2。缺值一律 `N/A + 原因`，不隐藏字段、不隐藏卡片 |
+| 首屏整页替换 | 删除「能力快照为空 → 整页骨架顶掉内容」的早退分支：第一帧即为完整骨架，采集结果到达后**原地换值** |
+| 高度跳变 | `ValueRow` 注释位**恒定占一行**（N/A 原因 / 估算声明共用，实测行留空占位）；`StatusBanner` 固定 2 行 + 最小 48dp，大字号不裁切；`ChartFrame` / `ListFrame` 固定 160dp；端点徽标常驻「当前 / 备选」；端点对话框校验条常驻（通过后变成功提示） |
+| 条件区块 | 「网络详情」DNS 改为固定字段行；权限 / 降级提示改为常驻 `PageStatusCard`，只换文字与语气，不再作为整页早退理由 |
+
+**顺带修正**：位置页经纬度标签与数值互换（原 `LocationTab.fixValues` 把 `latitude` 填进「经度」、`longitude` 填进「纬度」），现按 `GnssFix.latitude/longitude` 正确对应。
+
+**1.4 门禁**：`assembleDebug + testDebugUnitTest（150 例，0 失败 / 0 错误 / 0 跳过）+ lint（0 error）` 全 `BUILD SUCCESSFUL`；debug APK 14,517,925 B。`features` 的 `ComposableNaming` 警告 7 条（原 5 条 + 本轮新增 2 条同样的小写 `render*` 约定），无 error、无可访问性告警。
+
+### 1.5 v1.1.0 发版与真机回归（2026-11-12，真机小米 22041216UC / Android 14 / API 34）
+
+| 项 | 结果 |
+|---|---|
+| 版本 | `versionCode 2` / `versionName 1.1.0`；Release APK 10,234,029 B |
+| 签名 | `apksigner verify`：V1 + V2 通过，证书 `CN=ShiJi` / SHA-256 `8f94e91d…b036` |
+| 单测 / lint | 150 例全绿（0 失败 / 0 跳过）；lint 0 error |
+| 真机冒烟 | **23 项全通过**：7 标签逐页滚动断言（卡片标题 + 每卡首行字段）、3 覆盖层 + 返回键、端点对话框常驻校验条、连点刷新×3、刷新后字段回归；logcat 无 FATAL / ANR |
+| 冷启动 | Release 345ms 均值（n=3：362 / 335 / 339ms）；同机 Debug 1643ms |
+| 取证 | `docs/evidence_ui_v1.1/`（各页 UI XML + PNG + logcat）；脚本 `tools/shiji_smoke_test.py` 可复用 |
+
+真机发现并修复：窄屏顶栏动作行末尾的「更新 HH:mm:ss」被右侧裁切（与状态条时间重复），已移除该冗余文本。
+
+**回归脚本用法**：`python tools/shiji_smoke_test.py --skip-install --out docs/evidence_ui_v1.1/run --only slot1,slot2,wifi,location`（手机上标签行只显示前 4 个，脚本会自动横向拖动标签行查找「设备 / 覆盖测试 / 测速」）。
 
 
 **三态标注**：所有字段带 `实测/换算/估算/N/A` 徽标；估算值（信号评级、TA 距离、屏幕尺寸等）附「估算值，仅供参考」；取不到的字段一律 `N/A` + 原因，不编造数值。

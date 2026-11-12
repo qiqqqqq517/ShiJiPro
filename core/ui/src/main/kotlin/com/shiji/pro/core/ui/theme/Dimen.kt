@@ -5,6 +5,8 @@ import androidx.compose.ui.unit.dp
 /**
  * 全局尺寸令牌（§11.4：间距 / 圆角 / 海拔统一定义，Screen 内禁止写 .dp 字面量）。
  * 设计基准 4dp 栅格。
+ *
+ * P15 UI 统一改造：新增大屏内容限宽、导航栏宽度、状态插画与进度条尺寸。
  */
 object Dimen {
     // ---- 间距 ----
@@ -40,4 +42,16 @@ object Dimen {
     val StrokeThin = 1.dp
     val StrokeNormal = 2.dp
     val StrokeBold = 4.dp
+
+    // ---- P15：响应式与状态组件 ----
+    /** 大屏内容最大宽度：超宽窗口下文本行不再被拉到不可读的长度。 */
+    val ContentMaxWidth = 900.dp
+    /** 大屏左侧导航栏宽度。 */
+    val RailWidth = 88.dp
+    /** 状态插画（空 / 错误 / 加载）的直径。 */
+    val StateIconSize = 52.dp
+    /** 骨架屏占位条高度。 */
+    val SkeletonLineHeight = 12.dp
+    /** 刷新进度条高度。 */
+    val ProgressHeight = 3.dp
 }

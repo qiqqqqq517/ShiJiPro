@@ -19,3 +19,9 @@ docs/evidence_p13/_*.xml
 docs/evidence_p13/_*.png
 release_view.json
 _dl/
+# 真机取证（逐帧 XML + 截图，单轮可达数十 MB，不入库；保留 docs/*.md 报告）
+docs/evidence_ui_v1.1/
+# 本地工作记录与 Python 缓存
+.workbuddy/
+__pycache__/
+*.pyc
